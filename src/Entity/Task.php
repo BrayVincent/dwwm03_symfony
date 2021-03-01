@@ -49,6 +49,12 @@ class Task
      */
     private $dueAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Tag::class, inversedBy="task")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tag;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -98,6 +104,18 @@ class Task
     public function setDueAt(\DateTimeInterface $dueAt): self
     {
         $this->dueAt = $dueAt;
+
+        return $this;
+    }
+
+    public function getTag(): ?Tag
+    {
+        return $this->tag;
+    }
+
+    public function setTag(?Tag $tag): self
+    {
+        $this->tag = $tag;
 
         return $this;
     }
