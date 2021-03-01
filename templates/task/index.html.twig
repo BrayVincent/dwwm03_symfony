@@ -3,8 +3,12 @@
 {% block title %}Liste de Tâches
 {% endblock %}
 
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+{% endblock %}
+
 {% block body %}
-	<div class="container">
+	<div class="container mt-5">
 		<table class="table table-striped table-bordered" id="tasksTable">
 			<thead>
 				<th>Id</th>
@@ -24,4 +28,13 @@
 			</tbody>
 		</table>
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+	<script>
+		$(document).ready(function () {
+$('#tasksTable').DataTable();
+});
+	</script>
 {% endblock %}
