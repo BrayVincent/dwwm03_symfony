@@ -4,13 +4,38 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\TaskRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
 {
+
+    /**
+     * @var TaskRepository
+     */
+    private $repository;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $manager;
+
+    /**
+     * Constructeur du TaskController pour injection de dépendances
+     *
+     * @param TaskRepository $repository
+     * @param EntityManagerInterface $manager
+     */
+    public function __construct(TaskRepository $repository, EntityManagerInterface $manager)
+    {
+        $this->repository = $repository;
+        $this->manager = $manager;
+    }
+
     /**
      * @Route("/tasks/listing", name="tasks_listing")
      */
@@ -18,10 +43,10 @@ class TaskController extends AbstractController
     {
 
         // On va chercher par Doctrine le repository de nos Task
-        $repository = $this->getDoctrine()->getRepository(Task::class);
+        // $repository = $this->getDoctrine()->getRepository(Task::class);
 
         // dans ce repository nous récupérons toutes les données
-        $tasks = $repository->findAll();
+        $tasks = $this->repository->findAll();
 
         // affichage des données dans le var_dumper
         // dd($tasks);
@@ -58,9 +83,9 @@ class TaskController extends AbstractController
                 ->setDueAt($form['dueAt']->getData())
                 ->setTag($form['tag']->getData());
 
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($task);
-            $manager->flush();
+            // $manager = $this->getDoctrine()->getManager();
+            $this->manager->persist($task);
+            $this->manager->flush();
 
             return $this->redirectToRoute('tasks_listing');
         }
@@ -78,7 +103,7 @@ class TaskController extends AbstractController
     public function updateTask($id, Request $request): Response
     {
 
-        $task = $this->getDoctrine()->getRepository(Task::class)->findOneBy(['id' => $id]);
+        $task = $this->repository->findOneBy(['id' => $id]);
 
         $form = $this->createForm(TaskType::class, $task, []);
 
@@ -91,9 +116,9 @@ class TaskController extends AbstractController
                 ->setDueAt($form['dueAt']->getData())
                 ->setTag($form['tag']->getData());
 
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($task);
-            $manager->flush();
+            // $manager = $this->getDoctrine()->getManager();
+            $this->manager->persist($task);
+            $this->manager->flush();
 
             return $this->redirectToRoute('tasks_listing');
         }
