@@ -42,14 +42,8 @@ class TaskController extends AbstractController
     public function taskListing(): Response
     {
 
-        // On va chercher par Doctrine le repository de nos Task
-        // $repository = $this->getDoctrine()->getRepository(Task::class);
-
         // dans ce repository nous récupérons toutes les données
         $tasks = $this->repository->findAll();
-
-        // affichage des données dans le var_dumper
-        // dd($tasks);
 
         return $this->render('task/index.html.twig', [
             'tasks' => $tasks,
@@ -59,20 +53,26 @@ class TaskController extends AbstractController
 
     /**
      * @Route("/tasks/create", name="task_create")
+     * @Route("/tasks/update/{id}", name="task_update", requirements={"id"="\d+"})
      *
      * @param Request $request
      * @return Response
      */
-    public function createTask(Request $request): Response
+    public function task(Task $task = null, Request $request): Response
     {
 
-        // On crée un nouvel objet Task
-        $task = new Task;
-
-        // On nourri notre objet Task avec nos données calculées
-        $task->setCreatedAt(new \DateTime());
+        if (!$task) {
+            $task = new Task();
+            $flag = true;
+        } else {
+            $flag = false;
+        }
 
         $form = $this->createForm(TaskType::class, $task, []);
+
+        if ($flag) {
+            $task->setCreatedAt(new \DateTime());
+        }
 
         $form->handleRequest($request);
 
@@ -83,7 +83,6 @@ class TaskController extends AbstractController
                 ->setDueAt($form['dueAt']->getData())
                 ->setTag($form['tag']->getData());
 
-            // $manager = $this->getDoctrine()->getManager();
             $this->manager->persist($task);
             $this->manager->flush();
 
@@ -91,41 +90,5 @@ class TaskController extends AbstractController
         }
 
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
-    }
-
-    /**
-     * @Route("/tasks/update/{id}", name="task_update", requirements={"id"="\d+"})
-     *
-     * @param [type] $id
-     * @param Request $request
-     * @return Response
-     */
-    public function updateTask($id, Request $request): Response
-    {
-
-        $task = $this->repository->findOneBy(['id' => $id]);
-
-        $form = $this->createForm(TaskType::class, $task, []);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() and $form->isValid()) {
-
-            $task->setName($form['name']->getData())
-                ->setDescription($form['description']->getData())
-                ->setDueAt($form['dueAt']->getData())
-                ->setTag($form['tag']->getData());
-
-            // $manager = $this->getDoctrine()->getManager();
-            $this->manager->persist($task);
-            $this->manager->flush();
-
-            return $this->redirectToRoute('tasks_listing');
-        }
-
-        return $this->render('task/create.html.twig', [
-            'form' => $form->createView(),
-            'task' => $task
-        ]);
     }
 }
