@@ -41,6 +41,9 @@ class TaskController extends AbstractController
      */
     public function taskListing(): Response
     {
+        //Récupérer les informations de l'utilisateurs connecté
+        // $user = $this->getUser();
+        // dd($user);
 
         // dans ce repository nous récupérons toutes les données
         $tasks = $this->repository->findAll();
