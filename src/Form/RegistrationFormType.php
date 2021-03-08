@@ -27,6 +27,7 @@ class RegistrationFormType extends AbstractType
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
+                'attr' => ['class' => 'offset-1'],
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
