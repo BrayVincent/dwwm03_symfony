@@ -99,6 +99,7 @@ class TaskController extends AbstractController
             $this->manager->persist($task);
             $this->manager->flush();
 
+            $this->addFlash('success', $flag ? "Votre tâche a bien été ajouté" : "Votre tache à bien été modifiée");
             return $this->redirectToRoute('tasks_listing');
         }
 
@@ -117,6 +118,7 @@ class TaskController extends AbstractController
         $this->manager->remove($task);
         $this->manager->flush();
 
+        $this->addFlash('warning', 'Votre tâche à bien été supprimée');
         return $this->redirectToRoute('tasks_listing');
     }
 
@@ -164,6 +166,8 @@ class TaskController extends AbstractController
                 ->subject($sub)
                 ->text($text);
             $mailer->send($message);
+
+            $this->addFlash('success', $this->translator->trans('flash.mail.success'));
             return $this->redirectToRoute('tasks_listing');
         }
         return $this->render('email/task.html.twig', ['form' => $form->createView()]);

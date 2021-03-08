@@ -43,3 +43,7 @@ dataTable:
     previous: Précédent
   sortAscending: Activer pour trier la colonne par ordre croissant
   sortDescending: Activer pour trier la colonne par ordre décroissant
+
+  flash:
+    mail:
+      succes: Your email has been sent !
