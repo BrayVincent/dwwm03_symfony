@@ -1,3 +1,7 @@
 framework:
-    mailer:
-        dsn: '%env(MAILER_DSN)%'
+  mailer:
+    dsn: "%env(MAILER_DSN)%"
+    envelope:
+      sender: "nepasrepondre@todolist.com"
+    headers:
+      from: "ToDoList<nepasrepondre@todolist.com>"
