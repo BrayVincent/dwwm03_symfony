@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
@@ -25,15 +26,21 @@ class TaskController extends AbstractController
     private $manager;
 
     /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
      * Constructeur du TaskController pour injection de dépendances
      *
      * @param TaskRepository $repository
      * @param EntityManagerInterface $manager
      */
-    public function __construct(TaskRepository $repository, EntityManagerInterface $manager)
+    public function __construct(TaskRepository $repository, EntityManagerInterface $manager, TranslatorInterface $translator)
     {
         $this->repository = $repository;
         $this->manager = $manager;
+        $this->translator = $translator;
     }
 
     /**

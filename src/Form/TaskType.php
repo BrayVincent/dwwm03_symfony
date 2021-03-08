@@ -35,10 +35,10 @@ class TaskType extends AbstractType
             ])
             ->add('dueAt', DateTimeType::class, [
                 'widget' => 'single_text',
-                'label' => 'Date effetive',
+                'label' => 'entity.effectivedate',
                 'attr' => [
                     'class' => 'form-control col-8',
-                    'title' => 'Date effetive',
+                    'title' => 'entity.effectivedate',
                 ]
             ])
             ->add('tag', EntityType::class, [
@@ -55,10 +55,10 @@ class TaskType extends AbstractType
                 ]
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Enregistrer',
+                'label' => 'button.save',
                 'attr' => [
                     'class' => 'btn btn-primary',
-                    'title' => 'Enregistrer',
+                    'title' => 'button.save',
                 ]
             ]);
     }

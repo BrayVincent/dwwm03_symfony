@@ -1,0 +1,22 @@
+# translations/messages.en.yaml
+button:
+  add: Add
+  update: Update
+  delete: Delete
+  signin: Sign in
+  save: Save
+  logout: Logout
+
+entity:
+  name: Name
+  tag: Tag
+  title: Title
+  effectivedate: Effective date
+  description: Description
+
+login:
+  title: Please connect
+  logged: You are logged in as
+  pass: Password
+
+date: m/d/Y g:i a

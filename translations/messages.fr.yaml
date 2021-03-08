@@ -1,0 +1,22 @@
+# translations/messages.fr.yaml
+button:
+  add: Ajouter
+  update: Modifier
+  delete: Supprimer
+  signin: Se connecter
+  save: Enregistrer
+  logout: Se déconnecter
+
+entity:
+  name: Nom
+  tag: Catégorie
+  title: Titre
+  effectivedate: Date effective
+  description: Déscription
+
+login:
+  title: Connexion
+  logged: Vous êtes connecté sur
+  pass: Mot de passe
+
+date: d/m/Y H:i
