@@ -20,3 +20,21 @@ login:
   pass: Password
 
 date: m/d/Y g:i a
+
+dataTable:
+  empty: Aucune donnée dans la table
+  info: Affichage _START_ à _END_ sur _TOTAL_
+  infoEmpty: Afficher 0 à 0 sur 0
+  infoFiltered: (filtered from _MAX_ total entries)
+  lengthMenu: Afficher par _MENU_
+  loadingRecords: Chargement...
+  processing: Calcul...
+  search: Recherche
+  zeroRecords: Aucun enregistrement trouvé
+  paginate:
+    first: Premier
+    last: Dernier
+    next: Suivant
+    previous: Précédent
+  sortAscending: Activer pour trier la colonne par ordre croissant
+  sortDescending: Activer pour trier la colonne par ordre décroissant

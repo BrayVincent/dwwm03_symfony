@@ -44,8 +44,29 @@
 {% block javascripts %}
 	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<script>
-		$(document).ready(function () {
-$('#tasksTable').DataTable();
+$(document).ready(function () {
+$('#tasksTable').DataTable({
+"language": {
+"decimal": "",
+"emptyTable": "{{ 'dataTable.empty'|trans }}",
+"info": "{{ 'dataTable.info'|trans }}",
+"infoEmpty": "{{ 'dataTable.infoEmpty'|trans }}",
+"infoFiltered": "{{ 'dataTable.infoFiltered'|trans }}",
+"infoPostFix": "",
+"thousands": ",",
+"lengthMenu": "{{ 'dataTable.lengthMenu'|trans }}",
+"loadingRecords": "{{ 'dataTable.loadingRecords'|trans }}",
+"processing": "{{ 'dataTable.processing'|trans }}",
+"search": "{{ 'dataTable.search'|trans }}:",
+"zeroRecords": "{{ 'dataTable.zeroRecords'|trans }}",
+"paginate": {
+"first": "{{ 'dataTable.paginate.first'|trans }}",
+"last": "{{ 'dataTable.paginate.last'|trans }}",
+"next": "{{ 'dataTable.paginate.next'|trans }}",
+"previous": "{{ 'dataTable.paginate.previous'|trans }}"
+}
+}
 });
-	</script>
-{% endblock %}
+});
+</script>
+	{% endblock %}
