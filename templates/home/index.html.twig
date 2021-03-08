@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}To do App
+{% endblock %}
+
+{% block body %}
+
+	<div class="bg-danger pt-4 pb-4">
+		<h1 class="text-center text-white">Accueil</h1>
+	</div>
+	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+		<div class="text-center bg-white container pb-4 pt-2"></br>
+		<p>Vous êtes connecté en tant que
+			{{ app.user.email }}</p>
+
+	</br>
+	<a class="btn btn-secondary" href="{{ path('tasks_listing') }}" role="button">Acceder à la liste de tâche</a>
+
+</div>{% else %}
+<div class="text-center bg-white container pb-4 pt-2"></br>
+<p>Veuillez vous connecter pour acceder à votre liste de tâche</p>
+<p></p></br><a class="btn btn-success" href="{{ path('app_login') }}" role="button">Se connecter</a><a class="btn btn-secondary" href="#" role="button">Creer un compte</a></div>{% endif %}{% endblock %}
