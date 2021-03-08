@@ -18,6 +18,7 @@
 				<th>Catégorie</th>
 				<th></th>
 				<th></th>
+				<th></th>
 			</thead>
 			<tbody>
 				{% if tasks is defined %}
@@ -32,6 +33,9 @@
 							</td>
 							<td>
 								<a href="{{ path('task_delete', {'id': task.id})}}" class="btn btn-danger">Delete</a>
+							</td>
+							<td>
+								<a href="{{ path('task_email',{'id': task.id})}}" class="btn btn-primary ">Email</a>
 							</td>
 						</tr>
 					{% endfor %}

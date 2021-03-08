@@ -6,6 +6,7 @@ button:
   signin: Sign in
   save: Save
   logout: Logout
+  send: Send
 
 entity:
   name: Name
@@ -13,6 +14,10 @@ entity:
   title: Title
   effectivedate: Effective date
   description: Description
+  sender: Sender
+  recipient: Recipient
+  object: object
+  message: message
 
 login:
   title: Please connect
