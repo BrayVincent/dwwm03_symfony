@@ -24,7 +24,7 @@
 					{% for task in tasks %}
 						<tr>
 							<th scope="row">{{ task.id }}</th>
-							<td>{{ task.name }}</td>
+							<td class="clickable" data-id="{{path('task_detail', {'id':task.id})}}">{{ task.name }}</td>
 							<td>{{ task.dueAt | date('date'|trans)}}</td>
 							<td>{{ task.tag.name }}</td>
 							<td>
@@ -44,7 +44,7 @@
 {% block javascripts %}
 	<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<script>
-$(document).ready(function () {
+		$(document).ready(function () {
 $('#tasksTable').DataTable({
 "language": {
 "decimal": "",
@@ -68,5 +68,12 @@ $('#tasksTable').DataTable({
 }
 });
 });
-</script>
-	{% endblock %}
+	</script>
+	<script>
+		$(".clickable").click(function (e) {
+$valeur = e.currentTarget.getAttribute("data-id");
+document.location = $valeur;
+return $valeur;
+});
+	</script>
+{% endblock %}

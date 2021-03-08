@@ -116,4 +116,17 @@ class TaskController extends AbstractController
 
         return $this->redirectToRoute('tasks_listing');
     }
+
+    /**
+     * définir le chemin des données
+     * @Route("/tasks/detail/{id}", name="task_detail", requirements={"id"="\d+"})
+     * @param Task $task
+     * @return Response
+     */
+    public function show(Task $task): Response
+    {
+        return $this->render('task/detail.html.twig', [
+            'task' => $task,
+        ]);
+    }
 }

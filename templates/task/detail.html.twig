@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+{% block body %}
+	<div class="container">
+		{% if task is defined %}
+
+			<a href="{{path('tasks_listing')}}" class="btn btn-outline-warning mb-3">Retour au listing</a>
+			<div class="row justify-content-center">
+				<div class="col-md-10 ">
+
+					<div class="card text-white text-center bg-info mb-3 col-8">
+						<h1 class="card-body">{{task.name}}</h1>
+					</div>
+					<div class="card text-center border-info mb-3 col-8">
+						<h4 class="card-body">{{task.tag.name}}</h4>
+					</div>
+					<div class="card text-center border-info mb-3 col-8">
+						<h4 class="card-body">{{ task.dueAt | date('d/m/Y H:i') }}</h4>
+					</div>
+					<div class="card text-center border-info mb-3 col-8">
+						<h4 class="card-body">{{task.description}}</h4>
+					</div>
+
+				</div>
+				<div class="col-md-2 align-self-center">
+
+					<div class="column">
+						<a href="{{path('task_update',{'id':task.id})}}" class="btn btn-success btn-lg mb-5">Update</a>
+
+						<a href="{{path('task_delete',{'id':task.id})}}" class="btn btn-secondary btn-lg">Delete</a>
+
+					</div>
+
+				</div>
+
+			{% endif %}
+		</div>
+	{% endblock %}
