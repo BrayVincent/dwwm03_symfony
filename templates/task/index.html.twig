@@ -16,6 +16,9 @@
 				<th>Nom</th>
 				<th>Date effective</th>
 				<th>Catégorie</th>
+				{% if is_granted('ROLE_ADMIN') %}
+					<th>User ID</th>
+				{% endif %}
 				<th></th>
 				<th></th>
 				<th></th>
@@ -28,6 +31,9 @@
 							<td class="clickable" data-id="{{path('task_detail', {'id':task.id})}}">{{ task.name }}</td>
 							<td>{{ task.dueAt | date('date'|trans)}}</td>
 							<td>{{ task.tag.name }}</td>
+							{% if is_granted('ROLE_ADMIN') %}
+								<td>{{ task.user.id }}</td>
+							{% endif %}
 							<td>
 								<a href="{{ path('task_update', {'id': task.id})}}" class="btn btn-success">Update</a>
 							</td>

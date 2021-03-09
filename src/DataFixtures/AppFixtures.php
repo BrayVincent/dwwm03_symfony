@@ -44,28 +44,6 @@ class AppFixtures extends Fixture
             $manager->persist($tag);
         }
 
-        // On push les catégories en BDD
-        $manager->flush();
-
-        // Récupérer les catégories créées
-        $allTags = $manager->getRepository(Tag::class)->findAll();
-
-        // Création entre 15 et 30 tâches aléatoirement
-        for ($t = 0; $t < mt_rand(15, 30); $t++) {
-
-            // Création d'un nouvel objet Task
-            $task = new Task;
-
-            // On nourrit l'objet Task
-            $task->setName($faker->sentence(6))
-                ->setDescription($faker->paragraph(3))
-                ->setCreatedAt(new \DateTime()) // Attention les dates sont créées en fonction du paramétrage de votre serveur
-                ->setDueAt($faker->dateTimeBetween('now', '6 months'))
-                ->setTag($faker->randomElement($allTags));
-
-            // On fait persister les données
-            $manager->persist($task);
-        }
 
         // Création de 5 utilisateurs
         for ($u = 0; $u < 5; $u++) {
@@ -91,6 +69,31 @@ class AppFixtures extends Fixture
 
             // On fait persister les données
             $manager->persist($user);
+        }
+
+        // On push les catégories en BDD
+        $manager->flush();
+
+        // Récupérer les catégories créées
+        $allTags = $manager->getRepository(Tag::class)->findAll();
+        $allUsers = $manager->getRepository(User::class)->findAll();
+
+        // Création entre 15 et 30 tâches aléatoirement
+        for ($t = 0; $t < mt_rand(15, 30); $t++) {
+
+            // Création d'un nouvel objet Task
+            $task = new Task;
+
+            // On nourrit l'objet Task
+            $task->setName($faker->sentence(6))
+                ->setDescription($faker->paragraph(3))
+                ->setCreatedAt(new \DateTime()) // Attention les dates sont créées en fonction du paramétrage de votre serveur
+                ->setDueAt($faker->dateTimeBetween('now', '6 months'))
+                ->setTag($faker->randomElement($allTags))
+                ->setUser($faker->randomElement($allUsers));
+
+            // On fait persister les données
+            $manager->persist($task);
         }
 
         // On push le tout en BDD
