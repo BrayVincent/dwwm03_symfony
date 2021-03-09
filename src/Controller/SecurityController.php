@@ -73,8 +73,11 @@ class SecurityController extends AbstractController
                 );
             }
         }
-        return $this->render('security/checkEmail.html.twig', ['form'
-        => $form->createView()]);
+        return $this->render('security/checkEmail.html.twig', [
+            'form'
+            => $form->createView(),
+            'title' => 'Veuillez entrer votre adresse mail'
+        ]);
     }
 
     /**
@@ -103,8 +106,11 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
         return $this->render(
-            'security/forgotPwd.html.twig',
-            ['form' => $form->createView()]
+            'security/checkEmail.html.twig',
+            [
+                'form' => $form->createView(),
+                'title' => 'Veuillez changer votre mot de passe'
+            ]
         );
     }
 }
