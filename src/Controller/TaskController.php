@@ -114,6 +114,18 @@ class TaskController extends AbstractController
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
+    /**
+     * @Route("/tasks/calendar", name="task_calendar")
+     *
+     * @return Response
+     */
+    public function calendar(): Response
+    {
+
+        return $this->render('task/calendar.html.twig');
+    }
+
+
 
     /**
      * @Route("/tasks/delete/{id}", name="task_delete", requirements={"id"="\d+"})

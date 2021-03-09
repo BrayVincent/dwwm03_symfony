@@ -88,7 +88,9 @@ class AppFixtures extends Fixture
             $task->setName($faker->sentence(6))
                 ->setDescription($faker->paragraph(3))
                 ->setCreatedAt(new \DateTime()) // Attention les dates sont créées en fonction du paramétrage de votre serveur
-                ->setDueAt($faker->dateTimeBetween('now', '6 months'))
+                ->setBeginAt($faker->dateTimeBetween('now', '2 months'))
+                ->setDueAt($faker->dateTimeInInterval($task->getBeginAt(), '+2 days'))
+                ->setEndAt($task->getDueAt())
                 ->setTag($faker->randomElement($allTags))
                 ->setUser($faker->randomElement($allUsers));
 
