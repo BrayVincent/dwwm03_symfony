@@ -43,6 +43,16 @@ class User implements UserInterface
      */
     private $tasks;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $pwdRequestedAt;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -155,6 +165,30 @@ class User implements UserInterface
                 $task->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getPwdRequestedAt(): ?\DateTimeInterface
+    {
+        return $this->pwdRequestedAt;
+    }
+
+    public function setPwdRequestedAt(?\DateTimeInterface $pwdRequestedAt): self
+    {
+        $this->pwdRequestedAt = $pwdRequestedAt;
 
         return $this;
     }

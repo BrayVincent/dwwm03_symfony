@@ -47,3 +47,4 @@ dataTable:
 flash:
   mail:
     succes: Votre email a été envoyé !
+    password: Votre mot de passe a été changé
