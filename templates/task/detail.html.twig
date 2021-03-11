@@ -23,15 +23,14 @@
 							{{ task.address }}</li>
 						<li class="list-group-item text-center not-pdf">
 							<iframe src="https://maps.google.com/maps?q={{ task.address|url_encode }}
-																										&amp;t=m&amp;z=12&amp;output=embed&amp;iwloc=near" title="{{ task.address }}" aria-label="{{ task.address }}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+																																										&amp;t=m&amp;z=12&amp;output=embed&amp;iwloc=near" title="{{ task.address }}" aria-label="{{ task.address }}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
 						</li>
 					{% else %}
 						<li class="list-group-item">Adresse: non définie</li>
 					{% endif %}
 				</ul>
-				<div
-					class="card-body not-pdf">
-					{# <a href="{{ path('task_pdf', {'id': task.id}) }}" class="btn btn-primary">Export to PDF</a> #}
+				<div class="card-body not-pdf">
+					<a href="{{ path('task_pdf', {'id': task.id}) }}" class="btn btn-primary">Export to PDF</a>
 					<a href="{{ path('task_email', {'id': task.id}) }}" class="btn btn-primary">Email</a>
 				</div>
 				<div class="card-footer text-muted">

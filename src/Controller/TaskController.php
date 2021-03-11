@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use DOMXPath;
+use Knp\Snappy\Pdf;
 use App\Entity\Task;
 use App\Form\MailType;
 use App\Form\TaskType;
@@ -13,6 +15,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TaskController extends AbstractController
@@ -192,5 +195,60 @@ class TaskController extends AbstractController
             return $this->redirectToRoute('tasks_listing');
         }
         return $this->render('email/task.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/tasks/detail/{id}/pdf", name="task_pdf", requirements={"id"="\d+"})
+     *
+     * @param Task $task
+     * @param Pdf $knpSnappyPdf
+     * @return void
+     */
+    public function exportTaskToPdf(Task $task, Pdf $knpSnappyPdf)
+    {
+        $html = $this->renderView('task/detail.html.twig', [
+            'task' => $task
+        ]);
+        $html = $this->prepareHTMLtoPDF($html);
+        return new PdfResponse(
+            $knpSnappyPdf->getOutputFromHtml($html),
+            'todo' . $task->getId() . '.pdf'
+        );
+    }
+
+    /**
+     * @Route("/tasks/listing/pdf", name="tasks_list_pdf", requirements={"id"="\d+"})
+     *
+     * @param Pdf $knpSnappyPdf
+     * @return void
+     */
+    public function exportTasksListToPdf(Pdf $knpSnappyPdf)
+    {
+        $html = $this->taskListing()->getContent();
+        $html = $this->prepareHTMLtoPDF($html);
+        return new PdfResponse(
+            $knpSnappyPdf->getOutputFromHtml($html),
+            'todolist.pdf'
+        );
+    }
+
+    /**
+     * Remove all nodes from Html content containing class "not-pdf"
+     *
+     * @param [type] $html
+     * @return string
+     */
+    private function prepareHTMLtoPDF($html): string
+    {
+        // Using DOMDocument and DOMXPath
+        $dom = new \DOMDocument;
+        @$dom->loadHTML($html);
+        $xPath = new DOMXPath($dom);
+        $delNodes = $xPath->query('//*[contains(@class,"not-pdf")]');
+        // Remove all nodes containing class "not-pdf"
+        foreach ($delNodes as $node) {
+            $node->parentNode->removeChild($node);
+        }
+        return $dom->saveHTML();
     }
 }
