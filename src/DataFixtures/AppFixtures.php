@@ -89,11 +89,12 @@ class AppFixtures extends Fixture
                 ->setDescription($faker->paragraph(3))
                 ->setCreatedAt(new \DateTime()) // Attention les dates sont créées en fonction du paramétrage de votre serveur
                 ->setBeginAt($faker->dateTimeBetween('now', '2 months'))
-                ->setDueAt($faker->dateTimeInInterval($task->getBeginAt(), '+2 days'))
-                ->setEndAt($task->getDueAt())
+                ->setEndAt($faker->dateTimeInInterval($task->getBeginAt(), '+2 days'))
                 ->setTag($faker->randomElement($allTags))
                 ->setUser($faker->randomElement($allUsers))
-                ->setAddress($faker->address());
+                ->setAddress($faker->address())
+                ->setIsArchived($faker->boolean());
+
 
             // On fait persister les données
             $manager->persist($task);

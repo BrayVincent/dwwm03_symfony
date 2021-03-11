@@ -62,8 +62,10 @@ class TaskController extends AbstractController
         } else {
             // Recuperer les données du repository pour le user connecté
             $tasks = $this->repository->findBy(
-                ['user' => $user->getId()],
-                ['id' => 'ASC']
+                [
+                    'user' => $user->getId(),
+                    'isArchived' => false
+                ]
             );
         }
         return $this->render('task/index.html.twig', [
@@ -103,10 +105,11 @@ class TaskController extends AbstractController
 
             $task->setName($form['name']->getData())
                 ->setDescription($form['description']->getData())
-                ->setDueAt($form['dueAt']->getData())
                 ->setTag($form['tag']->getData())
                 ->setUser($user)
-                ->setAddress($form['address']->getData());
+                ->setAddress($form['address']->getData())
+                ->setBeginAt($form['beginAt']->getData())
+                ->setEndAt($form['endAt']->getData());
 
             $this->manager->persist($task);
             $this->manager->flush();
@@ -174,7 +177,7 @@ class TaskController extends AbstractController
         $sub = "Vous avez reçu la tache: " . $task->getName();
         $text = "Son contenu est: " . $task->getDescription() . "\n" .
             "Date de début: " . $task->getCreatedAt()->format('d-m-Y') . "\n" .
-            "Date de fin: " . $task->getDueAt()->format('d-m-Y') . "\n";
+            "Date de fin: " . $task->getEndAt()->format('d-m-Y') . "\n";
 
         //Creation du formulaire
         $form = $this->createForm(
@@ -250,5 +253,63 @@ class TaskController extends AbstractController
             $node->parentNode->removeChild($node);
         }
         return $dom->saveHTML();
+    }
+
+    /**
+     * @Route("/tasks/archives", name="tasks_archives")
+     * @param Task $task
+     * @return Response
+     */
+    public function archiveListing(): Response
+    {
+        // Récupérer les infos du user connecté
+        $user = $this->getUser();
+        if ($user->getRoles()[0] === 'ROLE_ADMIN') {
+            // Récupérer les données du repository pour l'admin
+            $tasks = $this->repository->findBy(
+                ['isArchived' => true]
+            );
+        } else {
+            // Récupérer les données du repository pour le user connecté
+            $tasks = $this->repository->findBy(
+                [
+                    'user' => $user->getId(),
+                    'isArchived' => true
+                ]
+            );
+        }
+        return $this->render('task/archives.html.twig', [
+            'tasks' => $tasks
+        ]);
+    }
+
+    /**
+     *@Route ("/tasks/archive/{id}", name="task_archive", requirements={"id"="\d+"}))
+     *
+     * @param Task $task
+     * @return Response
+     */
+    public  function archive(Task $task): Response
+    {
+        $task->setIsArchived(true);
+        $this->manager->persist($task);
+        $this->manager->flush();
+        $this->addFlash('success', 'Votre tâche à bien été archivée');
+        return $this->redirectToRoute('tasks_listing');
+    }
+
+    /**
+     *@Route ("/tasks/republier/{id}", name="task_republier", requirements={"id"="\d+"}))
+     *
+     * @param Task $task
+     * @return Response
+     */
+    public  function republier(Task $task): Response
+    {
+        $task->setIsArchived(false);
+        $this->manager->persist($task);
+        $this->manager->flush();
+        $this->addFlash('success', 'Votre tâche à bien été publiée à nouveau');
+        return $this->redirectToRoute('tasks_listing');
     }
 }

@@ -22,14 +22,7 @@
 				<th>Adresse</th>
 				{% if is_granted('ROLE_ADMIN') %}
 					<th>User ID</th>
-				{% endif %}
-				<th class="not-pdf"></th>
-				<th class="not-pdf"></th>
-				<th class="not-pdf"></th>
-				{% if is_granted('ROLE_ADMIN') %}
-					<th>Archivage</th>
-				{% else %}
-					<th></th>
+					<th class="not-pdf"></th>
 				{% endif %}
 			</thead>
 			<tbody>
@@ -43,26 +36,10 @@
 							<td>{{ task.address }}</td>
 							{% if is_granted('ROLE_ADMIN') %}
 								<td>{{ task.user.id }}</td>
+								<td>
+									<a href="{{ path('task_republier',{'id': task.id})}}" class="btn btn-primary ">Republier</a>
+								</td>
 							{% endif %}
-							<td class="not-pdf">
-								<a href="{{ path('task_update', {'id': task.id})}}" class="btn btn-success">Update</a>
-							</td>
-							<td class="not-pdf">
-								<a href="{{ path('task_delete', {'id': task.id})}}" class="btn btn-danger">Delete</a>
-							</td>
-							<td class="not-pdf">
-								<a href="{{ path('task_email',{'id': task.id})}}" class="btn btn-primary ">Email</a>
-							</td>
-							<td>
-								{% if is_granted('ROLE_ADMIN') %}
-									<div class="custom-control custom-switch">
-										<input type="checkbox" class="custom-control-input " {% if task.isArchived == true %} checked {% endif %} disabled id="customSwitch2">
-										<label class="custom-control-label" for="customSwitch2"></label>
-									</div>
-								{% else %}
-									<a href="{{ path('task_archive',{'id': task.id})}}" class="btn btn-danger ">Archiver</a>
-								{% endif %}
-							</td>
 
 						</tr>
 					{% endfor %}

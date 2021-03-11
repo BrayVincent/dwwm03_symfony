@@ -43,13 +43,6 @@ class Task
     private $createdAt;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="due_at", type="datetime", nullable=false)
-     */
-    private $dueAt;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Tag::class, inversedBy="task")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -75,6 +68,11 @@ class Task
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isArchived;
 
     public function getId(): ?int
     {
@@ -113,18 +111,6 @@ class Task
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getDueAt(): ?\DateTimeInterface
-    {
-        return $this->dueAt;
-    }
-
-    public function setDueAt(\DateTimeInterface $dueAt): self
-    {
-        $this->dueAt = $dueAt;
 
         return $this;
     }
@@ -185,6 +171,18 @@ class Task
     public function setAddress(?string $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(bool $isArchived): self
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }
