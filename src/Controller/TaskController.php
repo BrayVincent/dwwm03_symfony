@@ -361,4 +361,35 @@ class TaskController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    /**
+     * Undocumented function
+     * @Route("/tasks/calendar/request", name="task_calendar_request")
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function HttpGetRequest(Request $request)
+    {
+        //dd($request);
+        // Récupère les informations de la requête
+        $datas = $request->query->all();
+
+        $id = $datas['id'];
+        $name = $datas['name_task'];
+        $desc = $datas['desc'];
+        $debut = new \DateTime($datas['debut'] . ' 12:00:00'); // Adapte la dateau format dateTimeInterface
+        $fin = new \DateTime($datas['fin'] . ' 12:00:00');
+
+        // Récupère l'objet task selon l'id
+        $task = $this->getDoctrine()->getRepository(Task::class)->findOneBy(['id' => $id]);
+
+        // Modifie ses propriétés
+        $task->setName($name)->setDescription($desc)->setBeginAt($debut)->setEndAt($fin);
+
+        // Persist and flush in DB
+        $this->manager->persist($task);
+        $this->manager->flush();
+
+        return $this->redirectToRoute('task_calendar');
+    }
 }

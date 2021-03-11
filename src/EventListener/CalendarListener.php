@@ -42,7 +42,14 @@ class CalendarListener
             $taskEvent->setOptions([
                 'backgroundColor' => '#e95420',
                 'borderColor' => '#e95420',
+                'id' => $task->getId(),
             ]);
+
+            $taskEvent->addOption('title', $task->getName());
+            $taskEvent->addOption('beginAt', $task->getBeginAt());
+            $taskEvent->addOption('endAt', $task->getEndAt());
+            $taskEvent->addOption('fulltext', $task->getDescription());
+
             $calendar->addEvent($taskEvent);
         }
     }

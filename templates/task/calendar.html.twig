@@ -3,33 +3,88 @@
 	<div class="container">
 		{% include '@Calendar/calendar.html' %}
 	</div>
+	<div class="modal fade" id="exampleModalCenter" tabindex="-
+				1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+
+					<h5 class="modal-
+												title" id="exampleModalLongTitle">Informations sur la tâche</h5>
+
+					<button type="button" id="btnClose" class="close" data- dismiss="modal" aria- label="Close" onclick="$('#exampleModalCenter').modal('hide');">
+
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-body-div"></div>
+					<div class="modal-body-modify">
+						<br><br>
+						<form action="{{ path('task_calendar_request') }}" method="G
+																ET">
+							<div class="form-group">
+								<label for="newName">Nouveau Nom</label>
+								<input id="newName" type="text" name="name_task" class="
+																		form-control">
+								<br>
+
+								<label for="desc">Description</label>
+
+								<textarea name="desc" id="desc" cols="30" rows="10" clas s="form-control"></textarea>
+								<br>
+								<label for="debut">Date de début</label>
+
+								<input type="date" name="debut" id="debut" class="form-
+																		control">
+
+								<br>
+
+								<label for="fin">Date de fin</label>
+
+								<input type="date" name="fin" id="fin" class="form-
+																		control">
+
+								<input type="hidden" name="id" value="" class="hidden_id
+																		">
+								<input type="submit" value="Modifier" class="btn btn-
+																primary">
+
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
 {% block stylesheets %}
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/co
-						re@4.1.0/main.min.css">
+										re@4.1.0/main.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/da
-						ygrid@4.1.0/
-						main.min.css">
+										ygrid@4.1.0/
+										main.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/ti
-						megrid@4.1.0/
-						main.min.css">
+										megrid@4.1.0/
+										main.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/bo
-			otstrap@4.2.0/
-			main.min.css">
+					otstrap@4.2.0/
+					main.min.css">
 {% endblock %}
 {% block javascripts %}
 	<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.mi
-						n.js"></script>
+										n.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/
-						main.min.js"></script>
+										main.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main
-						.min.js"></script>
+										.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/mai
-						n.min.js"></script>
+										n.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap@4.2.0/ma
-						in.min.js"></script>
+										in.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/momen
-						t.min.js"></script>
+										t.min.js"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
 var calendarEl = document.getElementById('calendar-holder');
@@ -59,7 +114,28 @@ right: 'dayGridMonth,timeGridWeek,timeGridDay'
 plugins: [
 'interaction', 'dayGrid', 'timeGrid'
 ], // https://fullcalendar.io / docs / plugin - index
-timeZone: 'UTC'
+timeZone: 'UTC',
+// Gère le clique sur la task
+eventClick: function (info) {
+console.log(info.event);
+// Récupère le hidden input pour lui passer l'id
+var hidden_input = document.getElementsByClassName('hidden_id');
+hidden_input[0].value = info.event.id;
+// Récupère le newName pour lui passer la valeur actuelle
+var newName = document.getElementById('newName');
+newName.value = info.event.title;
+// Same pour description
+var desc = document.getElementById('desc');
+desc.value = info.event.extendedProps.fulltext;
+// Same pour début
+var debut = document.getElementById('debut');
+debut.value = info.event.extendedProps.beginAt.date.substr(0, 10);
+// same pour fin
+var fin = document.getElementById('fin');
+fin.value = info.event.extendedProps.endAt.date.substr(0, 10);
+// Appel du modal lors du clique sur la tâche.
+$('#exampleModalCenter').modal('show');
+}
 });
 calendar.render();
 });
