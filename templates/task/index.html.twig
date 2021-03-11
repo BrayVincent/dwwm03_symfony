@@ -16,6 +16,7 @@
 				<th>Nom</th>
 				<th>Date effective</th>
 				<th>Catégorie</th>
+				<th>Adresse</th>
 				{% if is_granted('ROLE_ADMIN') %}
 					<th>User ID</th>
 				{% endif %}
@@ -28,9 +29,10 @@
 					{% for task in tasks %}
 						<tr>
 							<th scope="row">{{ task.id }}</th>
-							<td class="clickable" data-id="{{path('task_detail', {'id':task.id})}}">{{ task.name }}</td>
+							<td class="clickable" style="cursor: pointer;" data-id="{{path('task_detail', {'id':task.id})}}">{{ task.name }}</td>
 							<td>{{ task.dueAt | date('date'|trans)}}</td>
 							<td>{{ task.tag.name }}</td>
+							<td>{{ task.address }}</td>
 							{% if is_granted('ROLE_ADMIN') %}
 								<td>{{ task.user.id }}</td>
 							{% endif %}

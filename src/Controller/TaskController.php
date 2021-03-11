@@ -102,7 +102,8 @@ class TaskController extends AbstractController
                 ->setDescription($form['description']->getData())
                 ->setDueAt($form['dueAt']->getData())
                 ->setTag($form['tag']->getData())
-                ->setUser($user);
+                ->setUser($user)
+                ->setAddress($form['address']->getData());
 
             $this->manager->persist($task);
             $this->manager->flush();

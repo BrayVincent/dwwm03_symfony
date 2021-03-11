@@ -71,6 +71,11 @@ class Task
      */
     private $endAt;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -168,6 +173,18 @@ class Task
     public function setEndAt(\DateTimeInterface $endAt): self
     {
         $this->endAt = $endAt;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

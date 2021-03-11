@@ -1,37 +1,48 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
+
 {% block body %}
 	<div class="container">
 		{% if task is defined %}
-
-			<a href="{{path('tasks_listing')}}" class="btn btn-outline-warning mb-3">Retour au listing</a>
-			<div class="row justify-content-center">
-				<div class="col-md-10 ">
-
-					<div class="card text-white text-center bg-info mb-3 col-8">
-						<h1 class="card-body">{{task.name}}</h1>
-					</div>
-					<div class="card text-center border-info mb-3 col-8">
-						<h4 class="card-body">{{task.tag.name}}</h4>
-					</div>
-					<div class="card text-center border-info mb-3 col-8">
-						<h4 class="card-body">{{ task.dueAt | date('d/m/Y H:i') }}</h4>
-					</div>
-					<div class="card text-center border-info mb-3 col-8">
-						<h4 class="card-body">{{task.description}}</h4>
-					</div>
-
+			<a href="{{ path('tasks_listing') }}" class="btn btn-primary mb-3 not-pdf">Retour</a>
+			<div class="card mb-3">
+				<div class="card-header">
+					prévu du
+					{{ task.beginAt|date('d/m/Y H:i') }}
+					au
+					{{ task.endAt|date('d/m/Y H:i') }}
 				</div>
-				<div class="col-md-2 align-self-center">
-
-					<div class="column">
-						<a href="{{path('task_update',{'id':task.id})}}" class="btn btn-success btn-lg mb-5">Update</a>
-
-						<a href="{{path('task_delete',{'id':task.id})}}" class="btn btn-secondary btn-lg">Delete</a>
-
-					</div>
-
+				<div class="card-body">
+					<h5 class="card-title">{{ task.name }}</h5>
+					<h6 class="card-subtitle mb-2 text-muted">#
+						{{ task.tag.name }}</h6>
+					<p class="card-text">{{ task.description }}</p>
 				</div>
-
-			{% endif %}
-		</div>
-	{% endblock %}
+				<ul class="list-group list-group-flush">
+					{% if task.address is not null %}
+						<li class="list-group-item">Adresse:
+							{{ task.address }}</li>
+						<li class="list-group-item text-center not-pdf">
+							<iframe src="https://maps.google.com/maps?q={{ task.address|url_encode }}
+																										&amp;t=m&amp;z=12&amp;output=embed&amp;iwloc=near" title="{{ task.address }}" aria-label="{{ task.address }}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+						</li>
+					{% else %}
+						<li class="list-group-item">Adresse: non définie</li>
+					{% endif %}
+				</ul>
+				<div
+					class="card-body not-pdf">
+					{# <a href="{{ path('task_pdf', {'id': task.id}) }}" class="btn btn-primary">Export to PDF</a> #}
+					<a href="{{ path('task_email', {'id': task.id}) }}" class="btn btn-primary">Email</a>
+				</div>
+				<div class="card-footer text-muted">
+					crée le
+					{{ task.createdAt|date('d/m/Y H:i') }}
+				</div>
+			</div>
+			<div class="d-flex justify-content-end mb-3 not-pdf">
+				<a href="{{path('task_update',{'id':task.id})}}" class="btn btn-success mr-2">{{ "button.update"|trans }}</a>
+				<a href="{{path('task_delete',{'id':task.id})}}" class="btn btn-danger">{{ "button.delete"|trans }}</a>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
