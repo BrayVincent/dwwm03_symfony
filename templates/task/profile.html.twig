@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<a href="{{ path('tasks_updateprofile') }}" class="btn
+			btn-primary">
+		Modifier
+	</a>
+
+	<form>
+		<div class="form-outline mb-2">
+			<label class="form-label" for="formEmail">
+				Email
+			</label>
+			<input type="email" id="formEmail" class="form-control" value="{{ app.user.email }}"/>
+		</div>
+		<div class="form-outline mb-2">
+			<label class="form-label" for="formRole">
+				Role
+			</label>
+			{% if is_granted( 'ROLE_ADMIN' ) %}
+				<input type="email" id="formRole" class="form-control" value="Administrateur"/>
+			{% else %}
+				<input type="email" id="formRole" class="form-control" value="Utilisateur"/>
+			{% endif %}
+		</div>
+	</form>
+{% endblock %}

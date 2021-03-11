@@ -7,6 +7,7 @@ use Knp\Snappy\Pdf;
 use App\Entity\Task;
 use App\Form\MailType;
 use App\Form\TaskType;
+use App\Form\UpdateProfileType;
 use Symfony\Component\Mime\Email;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,9 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class TaskController extends AbstractController
 {
+    /**
+     *
+     * @var UserPasswordEncoderInterface
+     */
+    private $encoder;
 
     /**
      * @var TaskRepository
@@ -42,11 +49,12 @@ class TaskController extends AbstractController
      * @param TaskRepository $repository
      * @param EntityManagerInterface $manager
      */
-    public function __construct(TaskRepository $repository, EntityManagerInterface $manager, TranslatorInterface $translator)
+    public function __construct(TaskRepository $repository, EntityManagerInterface $manager, TranslatorInterface $translator, UserPasswordEncoderInterface $encoder)
     {
         $this->repository = $repository;
         $this->manager = $manager;
         $this->translator = $translator;
+        $this->encoder = $encoder;
     }
 
     /**
@@ -311,5 +319,46 @@ class TaskController extends AbstractController
         $this->manager->flush();
         $this->addFlash('success', 'Votre tâche à bien été publiée à nouveau');
         return $this->redirectToRoute('tasks_listing');
+    }
+
+    /**
+     * @Route("/tasks/profile", name="task_profile")
+     *
+     * @return Response
+     */
+    public function profile(): Response
+    {
+        return $this->render('task/profile.html.twig');
+    }
+
+
+    /**
+     * @Route("/tasks/updateprofile", name="tasks_updateprofile")
+     * @return Response
+     */
+    public function updateProfile(Request $request): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(
+            UpdateProfileType::class,
+            $user,
+            []
+        );
+        $form->handleRequest($request);
+        if ($form->isSubmitted() and $form->isValid()) {
+            $hash = $this->encoder->encodePassword(
+                $user,
+                $form['password']->getData()
+            );
+            $user->setPassword($hash)
+
+                ->setRoles($form['roles']->getData());
+            $this->manager->persist($user);
+            $this->manager->flush();
+            return $this->redirectToRoute('app_login');
+        }
+        return $this->render('task/updateProfile.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
