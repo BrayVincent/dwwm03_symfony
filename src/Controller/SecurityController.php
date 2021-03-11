@@ -169,7 +169,7 @@ class SecurityController extends AbstractController
         $now = new \DateTime();
         $interval = $now->getTimestamp() -
             $pwdRequestedAt->getTimestamp();
-        $daySeconds = 60 * 0.5;
+        $daySeconds = 60 * 15;
         $response = $interval > $daySeconds ? false : $response = true;
 
         return $response;
