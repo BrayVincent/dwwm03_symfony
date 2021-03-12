@@ -40,7 +40,7 @@ class CalendarListener
             );
 
             $taskEvent->setOptions([
-                'backgroundColor' => '#e95420',
+                'backgroundColor' => '#cbad77',
                 'borderColor' => '#e95420',
                 'id' => $task->getId(),
             ]);
