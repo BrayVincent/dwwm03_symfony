@@ -2,7 +2,7 @@
 	<div class="container-fluid">
 		<a class="navbar-brand" href="{{ path('home') }}">To Do App</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle
-																																																							navigation">
+																																																											navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
@@ -16,7 +16,7 @@
 					<a class="nav-link" href="{{ path('tasks_listing') }}">Liste</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Calendrier</a>
+					<a class="nav-link" href="{{ path('task_calendar')}}">Calendrier</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="{{ path('task_profile')}}">Profile</a>
