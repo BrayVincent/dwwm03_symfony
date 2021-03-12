@@ -9,8 +9,10 @@
         "ext-iconv": "*",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/doctrine-bundle": "^2.2",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
+        "fzaninotto/faker": "^1.9",
         "karser/karser-recaptcha3-bundle": "^0.1.17",
         "knplabs/knp-snappy-bundle": "^1.8",
         "sensio/framework-extra-bundle": "^6.1",
@@ -30,9 +32,7 @@
         "symfony/yaml": "5.2.*",
         "tattali/calendar-bundle": "^1.2",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0",
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "fakerphp/faker": "^1.13"
+        "twig/twig": "^2.12|^3.0"
     },
     "config": {
         "optimize-autoloader": true,
